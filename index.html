@@ -1,0 +1,86 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ImageLoad</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+          "lazyImg": "/src/lazyImg.js",
+          "SubmitComponent": "/src/submit.js"
+        }
+      }
+    </script>
+    <script type="module">
+      const SubmitComponent = {
+        setup() {
+          return () => {
+            return h("button", "Submit");
+          };
+        },
+      };
+    </script>
+  </head>
+  <body>
+    <div id="list">
+      <img _src="./imgs/1.svg" />
+      <img _src="./imgs/2.svg" />
+      <div id="submit"></div>
+      <div id="submit2"></div>
+
+      <img _src="./imgs/3.svg" />
+      <img _src="./imgs/4.svg" />
+      <img _src="./imgs/5.svg" />
+      <img _src="./imgs/1.svg" />
+      <img _src="./imgs/2.svg" />
+      <img _src="./imgs/3.svg" />
+      <img _src="./imgs/4.svg" />
+      <img _src="./imgs/5.svg" />
+    </div>
+
+    <style>
+      img {
+        border: none;
+      }
+    </style>
+
+    <script type="module">
+      import { lazyImg } from "lazyImg";
+      let listEl;
+      let imgsEl;
+
+      function pageInit() {
+        listEl = document.querySelector("#list");
+        imgsEl = document.querySelectorAll("#list > img");
+      }
+
+      function setImgsHeight() {
+        const { width } = listEl.getBoundingClientRect();
+
+        imgsEl.forEach((img) => {
+          img.style.width = width + "px";
+          img.style.height = width + "px";
+        });
+      }
+
+      pageInit();
+
+      setImgsHeight();
+
+      lazyImg(imgsEl);
+    </script>
+    <script type="module">
+      import { createApp } from "vue";
+      import SubmitComponent from "SubmitComponent";
+
+      const app = createApp(SubmitComponent);
+      app.mount("#submit");
+
+      const app2 = createApp(SubmitComponent);
+      app2.mount("#submit2");
+      // console.log(createApp);
+    </script>
+  </body>
+</html>
